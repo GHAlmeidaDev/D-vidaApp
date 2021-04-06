@@ -58,9 +58,8 @@ class App extends Component {
               <h1 style={{margin: "20px 0", fontFamily:'Roboto Mono'}}>Cadastro de Dívidas</h1>
           </Row>
             
-            <div style={{display: 'flex', justifyContent: 'flex-end'}}>
-              <ModalForm   buttonLabel="Novo" addItemToState={this.addItemToState}/>
-        
+            <div style={{display: 'flex', justifyContent: 'flex-end', paddingBottom:'1.5rem'}}>
+              <ModalForm  buttonLabel="Novo" addItemToState={this.addItemToState}/>
             </div>
 
           </Navbar>

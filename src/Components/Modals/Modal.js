@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Button, Modal, ModalHeader, ModalBody } from 'reactstrap'
 import AddDivida from '../Forms/FormAddEdit'
 
+
 class ModalForm extends Component {
   constructor(props) {
     super(props)
@@ -51,6 +52,7 @@ class ModalForm extends Component {
               updateState={this.props.updateState}
               toggle={this.toggle}
               divida={this.props.divida} />
+           
           </ModalBody>
         </Modal>
       </div>

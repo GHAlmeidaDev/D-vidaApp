@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button, Form, FormGroup, Label, Input, Alert } from 'reactstrap';
+
 import axios from "axios";
 
 class AddDivida extends React.Component {
@@ -36,9 +37,12 @@ class AddDivida extends React.Component {
       headers:{ 'Content-Type': 'application/json' } })
         .then(res => res.json())
         .catch(error => console.error('Error:', error))
-        .then(response => console.log('Success:', response));
-        alert('Dívida Cadastrada')
+        .then(response => alert('Dívida Cadastrada', response) );
+        
+        
         this.props.toggle()
+  
+
 }
   
 
@@ -70,7 +74,7 @@ class AddDivida extends React.Component {
   render() {
     
     return (
-      <Form onSubmit={this.props.divida ? this.submitFormEdit : this.handleSubmit}>
+      <Form onSubmit={this.handleSubmit}>
        <h1 style={{fontFamily:"Roboto Mono"}}>Cadastro de dívidas</h1>
         <p style={{paddingTop: "0.5rem", fontFamily:"Roboto Mono"}}>Cliente</p>
 
@@ -87,14 +91,15 @@ class AddDivida extends React.Component {
       </select>
 
         <FormGroup>
-          <Label style={{fontFamily:"Roboto Mono", paddingTop:"1rem"}} for="last">Motivo</Label>
+          <Label style={{fontFamily:"Roboto Mono", paddingTop:"1rem"}} for="motivo">Motivo</Label>
           <Input style={{fontFamily:"Roboto Mono"}} placeholder={"Ex: Aluguel"} type="text" name="motivo" id="motivo" onChange={this.onChange} value={this.state.motivo}  />
         </FormGroup>
         <FormGroup>
-          <Label style={{fontFamily:"Roboto Mono", paddingTop:"0.5rem"}}  for="hobby">Valor</Label>
-          <Input style={{fontFamily:"Roboto Mono"}}  placeholder={"Ex: R$300,00"} type="number" name="valor" id="valor" onChange={this.onChange} value={this.state.valor}  />
+          <Label style={{fontFamily:"Roboto Mono", paddingTop:"0.5rem"}}  for="valor">Valor</Label>
+          <Input style={{fontFamily:"Roboto Mono"}}  placeholder={"Ex: R$300,00"} type="text" name="valor" id="valor" onChange={this.onChange} value={this.state.valor}  />
         </FormGroup>
-        <Button style={{fontFamily:"Roboto Mono"}}>Cadastrar</Button>
+        
+<Button  disabled={!this.state.idUsuario || !this.state.motivo ||  !this.state.valor} style={{fontFamily:"Roboto Mono"}}>Cadastrar</Button>
       </Form>
     );
   }
