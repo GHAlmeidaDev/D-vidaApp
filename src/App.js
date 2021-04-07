@@ -55,7 +55,7 @@ class App extends Component {
         
           <Row>
              <Media  src={Logo} style={{width:"8rem"}} alt="AppDivida" />
-              <h1 style={{margin: "20px 0", fontFamily:'Roboto Mono'}}>Cadastro de Dívidas</h1>
+              <h1 style={{margin: "20px 0", fontFamily:'Roboto Mono'}}>Dashboard de Dívidas</h1>
           </Row>
             
             <div style={{display: 'flex', justifyContent: 'flex-end', paddingBottom:'1.5rem'}}>

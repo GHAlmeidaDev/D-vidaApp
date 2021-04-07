@@ -12,8 +12,9 @@ class EditDivida extends React.Component {
       valor: '',
       users: [],
       dividas: [],
+      updateText: '',
     }
-  
+    this.updateChange = this.updateChange.bind(this);
   }
   
 
@@ -21,9 +22,11 @@ class EditDivida extends React.Component {
     this.setState({[e.target.name]: e.target.value})
   }
 
+  
 
-
-
+  handleChange(e) {
+    this.setState({ text: e.target.value });
+  }
 
   handleSubmit = event =>{
     event.preventDefault();
@@ -37,10 +40,10 @@ class EditDivida extends React.Component {
         .then(res => res.json())
         .catch(error => console.error('Error:', error))
         .then(response => alert('Dívida Cadastrada', response) );
-        
+         
         
         this.props.toggle()
-  
+          
 
 }
   
@@ -65,14 +68,7 @@ submitFormEdit = e => {
         <Col
             style={{paddingBottom:"2rem"}}
         >
-            <Button
-                onSubmit={this.handleSubmit}  
-                color="warning"
-                onClick={this.toggle}
-                
-                >
-            Editar
-        </Button>
+            
     
         </Col>
         </Row>

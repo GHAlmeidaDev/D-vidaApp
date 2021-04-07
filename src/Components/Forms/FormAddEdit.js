@@ -37,11 +37,11 @@ class AddDivida extends React.Component {
       headers:{ 'Content-Type': 'application/json' } })
         .then(res => res.json())
         .catch(error => console.error('Error:', error))
-        .then(response => alert('Dívida Cadastrada', response) );
+        .then(response => window.location.reload(response) );
         
         
         this.props.toggle()
-  
+        
 
 }
   
@@ -68,13 +68,16 @@ class AddDivida extends React.Component {
         
       });
     });
+
+    
   }
   
   
   render() {
+   
     
     return (
-      <Form onSubmit={this.handleSubmit}>
+      <Form  onSubmit={this.handleSubmit}>
        <h1 style={{fontFamily:"Roboto Mono"}}>Cadastro de dívidas</h1>
         <p style={{paddingTop: "0.5rem", fontFamily:"Roboto Mono"}}>Cliente</p>
 
