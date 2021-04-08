@@ -1,4 +1,4 @@
-<div align="center">
+<div align="center" paddingBottom="20px">
   Aplicação de Controle de Dívidas
 
 ![](./src/Components/assets/LandingPage.png)
