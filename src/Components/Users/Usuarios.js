@@ -1,38 +1,48 @@
 import React from 'react';
-import { Button, Form, FormGroup, Label, Col, Container, Table, Modal, ModalBody } from 'reactstrap';
-import FormAddEdit from '../FormEdit/FormEdit';
+import { Button, Container, Table, Modal, ModalBody, Form, ModalHeader } from 'reactstrap';
+import FormEdit from '../FormEdit/FormEdit'
 import axios from "axios";
 
-class Dividas extends React.Component {
+class Usuarios extends React.Component {
     constructor(props){
         super(props);
         this.state = {
             idUsuario: '',
-            motivo: '',
+            motivo: "",
             valor : '',
             modal: false,
             result: '',
             _id: '',
-            text:''
+            updateText: "",
+            editMode: false,
+            hidhov: false
           }
       this.showModal = this.showModal.bind(this);
       this.hideModal = this.hideModal.bind(this);
-      this.handleChange = this.handleChange.bind(this);
-      this.handleSubmit = this.handleSubmit.bind(this);
     }
     
-    handleChange(event) {
-      this.setState({id: event.target.value});
-    }
-      
-      handleSubmit(event) {
-        alert('A name was submitted: ' + this.state.id);
-        event.preventDefault();
-      }
+    att(_id) 
+  {
+    const APP_UUID  = process.env.REACT_APP_UUID;
+    const url =`https://provadev.xlab.digital/api/v1/divida/${_id}?uuid=${APP_UUID}`
+    const data = {motivo:this.state.motivo, valor:this.state.valor }
+    fetch(url,
+    {
+      method: "PUT",
+    })
+    .then((result)=> {
+      result.json(data)
+      .then(response => window.location.reload(response) );
+    })
+    
+  }''
+   
+
 
     componentDidMount(){
-        const divida = '?uuid=f03c8b8f-c7e1-407f-9d9b-85422ba45452'
-        axios.get(`https://provadev.xlab.digital/api/v1/divida/${divida}`)
+        const APP_UUID  = process.env.REACT_APP_UUID;
+        const url =`https://provadev.xlab.digital/api/v1/divida/?uuid=${APP_UUID}`
+        axios.get(url)
         .then(res => {
             console.log(res);
             this.setState({
@@ -54,24 +64,19 @@ class Dividas extends React.Component {
         this.setState({ show: false });
       };
     
-   
+      modal = () => {
+        this.setState({hidhov:true})
+      }
 
-      delete(_id) 
-      {
-        const divida = '?uuid=f03c8b8f-c7e1-407f-9d9b-85422ba45452'
-        fetch(`https://provadev.xlab.digital/api/v1/divida/${_id}?uuid=f03c8b8f-c7e1-407f-9d9b-85422ba45452`,
-        {
-          method: "DELETE",
-        })
-        .then((result)=> {
-          result.json()
-          .then(response => window.location.reload(response) );
-        })
-        
-      }''
+      toggle = () => {
+        this.setState(prevState => ({
+          hidhov: !prevState.hidhov
+        }))
+      }
+    
       
       render() {
-        
+        const closeBtn = <button  style={{fontFamily:"Roboto Mono"}} className="close" color="secondary" onClick={this.toggle}>&times;</button>
         const { result } = this.state;
         
          if(result) {
@@ -79,33 +84,55 @@ class Dividas extends React.Component {
         <Container 
           style={{fontFamily:"Roboto Mono", paddingTop:'4rem'}} 
           type="number" name="id" id="id" 
-          onChange={this.handleChange} 
           value={this.state.id}  
         >
         
-        {this.state.result && this.state.result.map((users, _id) => {
+        { this.state.result.map((users, i) => {
           return (
-            <Table>
-            <tr  style={{height:'4rem'}} key={users._id}>
-              <th style={{width:"30%", textAlign:'start'}} scope="row">{users.idUsuario}</th>
-              <td style={{width:"30%", textAlign:'justify'}}>{users.motivo}</td>
-              <td style={{width:"30%", textAlign:'center'}} >R${users.valor}</td>
+           <Container>
+                <Table>
+                <tr  style={{height:'4rem'}} key={i}>
+                <th style={{width:"30%", textAlign:'start'}} scope="row">{users.idUsuario}</th>
+
+                <td style={{width:"30%", textAlign:'justify'}}>{users.motivo}</td>
+
+                <td style={{width:"30%", textAlign:'center'}} >R${users.valor}</td>
+                
               
-             
-              <td>
-                <div >
-                  <Button
-                    color="warning"
-                    onClick={() => this.update()}
-                  >
-                    Editar
-                  </Button>
-                  {' '}
-                  <Button style={{width: '5.2rem'}} color="danger" onClick={() => this.delete(users._id)}>Excluir</Button>
-                </div>
-          </td>
-          </tr>
-    </Table>
+                <td>
+                  <div >
+                    <Button
+                      color="warning"
+                      onClick={this.modal}
+                    >
+                      Editar
+                    </Button>
+                    
+                    {' '}
+                    <Button  color="danger" onClick={() => this.delete(users._id)}>Excluir</Button>
+                  </div>
+                </td>
+                </tr>
+                </Table>
+                <Modal
+                  isOpen={this.state.hidhov}
+                >
+                   <ModalHeader toggle={this.toggle} >Atualizar</ModalHeader>
+                      <ModalBody>
+                        <FormEdit
+                          
+                          updateState={this.props.updateState}
+                          toggle={this.toggle}
+                          divida={this.props.divida} 
+                        />
+                      
+              
+                      </ModalBody>
+
+                </Modal>
+            
+           </Container>
+           
            
           );
         })} 
@@ -116,5 +143,8 @@ class Dividas extends React.Component {
          return(<Modal  isOpen={this.showModal}  className={this.props.className}><ModalBody><div>Loading...</div></ModalBody></Modal>)
        }
     }
+   
   }
-export default Dividas
+
+  
+export default Usuarios

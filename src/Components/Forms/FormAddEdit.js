@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Form, FormGroup, Label, Input, Alert } from 'reactstrap';
+import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 
 import axios from "axios";
 
@@ -17,18 +17,17 @@ class AddDivida extends React.Component {
   
   }
   
-
+  
   onChange = e => {
     this.setState({[e.target.name]: e.target.value})
   }
 
 
-
-
-
+//FUNÇÃO METHOD POST
   handleSubmit = event =>{
     event.preventDefault();
-    const url ='https://provadev.xlab.digital/api/v1/divida/?uuid=f03c8b8f-c7e1-407f-9d9b-85422ba45452'
+    const APP_UUID  = process.env.REACT_APP_UUID;
+    const url =`https://provadev.xlab.digital/api/v1/divida/?uuid=${APP_UUID}`
 
     const data = {idUsuario:this.state.idUsuario, motivo:this.state.motivo, valor:this.state.valor }
 
@@ -38,8 +37,7 @@ class AddDivida extends React.Component {
         .then(res => res.json())
         .catch(error => console.error('Error:', error))
         .then(response => window.location.reload(response) );
-        
-        
+
         this.props.toggle()
         
 
@@ -49,10 +47,7 @@ class AddDivida extends React.Component {
 
   componentDidMount(){
     // if item exists, populate the state with proper data
-    if(this.props.divida){
-      const { idUsuario, motivo, valor } = this.props.divida
-      this.setState({ idUsuario, motivo, valor  })
-    }
+  
     axios.get("https://jsonplaceholder.typicode.com/users").then(res => {
       console.log(res);
       this.setState({
@@ -60,15 +55,6 @@ class AddDivida extends React.Component {
         
       });
     });
-
-    axios.get("https://provadev.xlab.digital/api/v1/divida/?uuid=f03c8b8f-c7e1-407f-9d9b-85422ba45452").then(res => {
-      console.log(res);
-      this.setState({
-        dividas: res.data
-        
-      });
-    });
-
     
   }
   
@@ -99,7 +85,7 @@ class AddDivida extends React.Component {
         </FormGroup>
         <FormGroup>
           <Label style={{fontFamily:"Roboto Mono", paddingTop:"0.5rem"}}  for="valor">Valor</Label>
-          <Input style={{fontFamily:"Roboto Mono"}}  placeholder={"Ex: R$300,00"} type="text" name="valor" id="valor" onChange={this.onChange} value={this.state.valor}  />
+          <Input style={{fontFamily:"Roboto Mono"}}  placeholder={"Ex: R$300,00"} type="number" name="valor" id="valor" onChange={this.onChange} value={this.state.valor}  />
         </FormGroup>
         
 <Button  disabled={!this.state.idUsuario || !this.state.motivo ||  !this.state.valor} style={{fontFamily:"Roboto Mono"}}>Cadastrar</Button>

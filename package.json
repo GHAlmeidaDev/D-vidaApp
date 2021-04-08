@@ -3,11 +3,17 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@react-navigation/native": "^5.9.4",
+    "@react-navigation/stack": "^5.14.4",
     "axios": "^0.21.1",
     "bootstrap": "^4.3.1",
+    "dotenv": "^8.2.0",
     "react": "^16.8.5",
+    "react-animated-bg": "^1.1.2",
     "react-csv": "^1.1.1",
     "react-dom": "^16.8.5",
+    "react-icons": "^4.2.0",
+    "react-router-dom": "^5.2.0",
     "react-scripts": "2.1.8",
     "reactstrap": "^7.1.0"
   },

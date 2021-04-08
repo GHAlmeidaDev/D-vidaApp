@@ -7,7 +7,7 @@ class ModalForm extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      modal: false
+      modal: false,
     }
   }
 
@@ -16,7 +16,7 @@ class ModalForm extends Component {
       modal: !prevState.modal
     }))
   }
-
+  
   render() {
       const closeBtn = <button  style={{fontFamily:"Roboto Mono"}} className="close" color="secondary" onClick={this.toggle}>&times;</button>
 
@@ -25,35 +25,32 @@ class ModalForm extends Component {
       let button = ''
       let title = ''
 
-      if(label === 'Edit'){
+      
         button = <Button
                   color="secondary"
                   onClick={this.toggle}
                   style={{float: "left", marginRight:"10px", fontFamily:'Roboto Mono'}}>{label}
                 </Button>
-        title = 'Editar Cadastro'
-      } else {
-        button = <Button
-                  color="secondary"
-                  onClick={this.toggle}
-                  style={{float: "left", marginRight:"10px", fontFamily:'Roboto Mono'}}>{label}
-                </Button>
-      }
+                
+    
 
 
       return (
       <div>
         {button}
         <Modal  isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
+          
           <ModalHeader toggle={this.toggle}  close={closeBtn}>{title}</ModalHeader>
-          <ModalBody>
-            <AddDivida
-              addItemToState={this.props.addItemToState}
-              updateState={this.props.updateState}
-              toggle={this.toggle}
-              divida={this.props.divida} />
-           
-          </ModalBody>
+            <ModalBody>
+              <AddDivida
+                addItemToState={this.props.addItemToState}
+                updateState={this.props.updateState}
+                toggle={this.toggle}
+                divida={this.props.divida} 
+              />
+            
+    
+            </ModalBody>
         </Modal>
       </div>
     )
