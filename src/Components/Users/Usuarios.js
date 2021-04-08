@@ -13,31 +13,12 @@ class Usuarios extends React.Component {
             modal: false,
             result: '',
             _id: '',
-            updateText: "",
-            editMode: false,
             hidhov: false
           }
       this.showModal = this.showModal.bind(this);
       this.hideModal = this.hideModal.bind(this);
     }
     
-    att(_id) 
-  {
-    const APP_UUID  = process.env.REACT_APP_UUID;
-    const url =`https://provadev.xlab.digital/api/v1/divida/${_id}?uuid=${APP_UUID}`
-    const data = {motivo:this.state.motivo, valor:this.state.valor }
-    fetch(url,
-    {
-      method: "PUT",
-    })
-    .then((result)=> {
-      result.json(data)
-      .then(response => window.location.reload(response) );
-    })
-    
-  }''
-   
-
 
     componentDidMount(){
         const APP_UUID  = process.env.REACT_APP_UUID;

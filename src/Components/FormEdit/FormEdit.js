@@ -7,12 +7,10 @@ class FormEdit extends React.Component {
   constructor() {
     super();
     this.state = {
-      id: '',
       idUsuario: '',
       motivo: '',
       valor: '',
       users: [],
-      dividas: [],
     }
   
   }

@@ -27,7 +27,7 @@ const Header = () => {
       <style jsx>{`
         header {
           margin-bottom: 1rem;
-          
+          backgroundColor:' #fffdd0'
         }
         .intro-logo {
           display: flex;
