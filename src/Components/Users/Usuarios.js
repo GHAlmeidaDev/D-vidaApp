@@ -73,6 +73,21 @@ class Usuarios extends React.Component {
           hidhov: !prevState.hidhov
         }))
       }
+
+      delete(_id) 
+      {
+        const APP_UUID  = process.env.REACT_APP_UUID;
+        const url =`https://provadev.xlab.digital/api/v1/divida/${_id}?uuid=${APP_UUID}`
+        fetch(url,
+        {
+          method: "DELETE",
+        })
+        .then((result)=> {
+          result.json()
+          .then(response => window.location.reload(response) );
+        })
+        
+      }''
     
       
       render() {
@@ -104,6 +119,8 @@ class Usuarios extends React.Component {
                     <Button
                       color="warning"
                       onClick={this.modal}
+                      users={users}
+                      updateState={this.props.updateState}
                     >
                       Editar
                     </Button>
