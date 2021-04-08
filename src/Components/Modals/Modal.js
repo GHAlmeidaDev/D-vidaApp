@@ -29,7 +29,7 @@ class ModalForm extends Component {
         button = <Button
                   color="secondary"
                   onClick={this.toggle}
-                  style={{float: "left", marginRight:"10px", fontFamily:'Roboto Mono'}}>{label}
+                  style={{float: "left", marginRight:"20px", fontFamily:'Roboto Mono'}}>{label}
                 </Button>
                 
     

@@ -1,6 +1,5 @@
 import React from 'react';
-import { Button, Container, Table, Modal, ModalBody, Form, ModalHeader } from 'reactstrap';
-import FormEdit from '../FormEdit/FormEdit'
+import { Button, Container, Table, Modal, ModalBody, Form, ModalHeader,FormGroup, Label, Input } from 'reactstrap';
 import axios from "axios";
 
 class Usuarios extends React.Component {
@@ -13,10 +12,12 @@ class Usuarios extends React.Component {
             modal: false,
             result: '',
             _id: '',
-            hidhov: false
+            hidhov: false,
+            editMode: false
           }
       this.showModal = this.showModal.bind(this);
       this.hideModal = this.hideModal.bind(this);
+      this.update = this.update.bind(this);
     }
     
 
@@ -36,7 +37,39 @@ class Usuarios extends React.Component {
           })
       }
 
-    
+      editDiv (_id) {
+        console.log(_id)
+        this.setState({
+          editMode: _id
+        })
+      
+        let editingItem = this.state.result.find(users => {
+          return users._id === _id;
+        })
+        this.setState({
+          motivo: editingItem.motivo,
+          valor:editingItem.valor
+        })
+        this.setState({hidhov:true})
+      }
+      
+      update (e) {
+        console.log('event', e)
+        e.preventDefault();
+        let _id = this.state.editMode;
+        const APP_UUID  = process.env.REACT_APP_UUID;
+        const url =`https://provadev.xlab.digital/api/v1/divida/${_id}?uuid=${APP_UUID}`
+        axios.put(url, {motivo: this.state.motivo, valor: this.state.valor})
+          .then(response => {
+            window.location.reload(response) ;
+            
+            this.setState({
+              motivo: '',
+              valor: ''
+            })
+          })
+      }
+
       showModal = () => {
         this.setState({ show: true });
       };
@@ -70,7 +103,9 @@ class Usuarios extends React.Component {
         
       }''
     
-      
+      onChange = e => {
+        this.setState({[e.target.name]: e.target.value})
+      }
       render() {
         const closeBtn = <button  style={{fontFamily:"Roboto Mono"}} className="close" color="secondary" onClick={this.toggle}>&times;</button>
         const { result } = this.state;
@@ -86,7 +121,7 @@ class Usuarios extends React.Component {
         { this.state.result.map((users, i) => {
           return (
            <Container>
-                <Table>
+                <Table >
                 <tr  style={{height:'4rem'}} key={i}>
                 <th style={{width:"30%", textAlign:'start'}} scope="row">{users.idUsuario}</th>
 
@@ -99,9 +134,9 @@ class Usuarios extends React.Component {
                   <div >
                     <Button
                       color="warning"
-                      onClick={this.modal}
-                      users={users}
-                      updateState={this.props.updateState}
+                      onClick={this.editDiv.bind(this, users._id )}
+                      
+                      
                     >
                       Editar
                     </Button>
@@ -112,28 +147,32 @@ class Usuarios extends React.Component {
                 </td>
                 </tr>
                 </Table>
-                <Modal
-                  isOpen={this.state.hidhov}
-                >
-                   <ModalHeader toggle={this.toggle} >Atualizar</ModalHeader>
-                      <ModalBody>
-                        <FormEdit
-                          
-                          updateState={this.props.updateState}
-                          toggle={this.toggle}
-                          divida={this.props.divida} 
-                        />
-                      
-              
-                      </ModalBody>
-
-                </Modal>
             
            </Container>
            
            
           );
         })} 
+<Modal isOpen={this.state.hidhov}>
+<ModalHeader toggle={this.toggle}  close={closeBtn}></ModalHeader>
+<ModalBody>
+<Form onSubmit={this.update}>
+       <h3>Atualizar</h3>
+
+       <FormGroup>
+         <Label style={{fontFamily:"Roboto Mono", paddingTop:"1rem"}} for="motivo">Motivo</Label>
+         <Input style={{fontFamily:"Roboto Mono"}} placeholder={"Ex: Aluguel"} type="text" name="motivo" id="motivo" onChange={this.onChange} value={this.state.motivo}  />
+       </FormGroup>
+       <FormGroup>
+         <Label style={{fontFamily:"Roboto Mono", paddingTop:"0.5rem"}}  for="valor">Valor</Label>
+         <Input style={{fontFamily:"Roboto Mono"}}  placeholder={"Ex: R$300,00"} type="number" name="valor" id="valor" onChange={this.onChange} value={this.state.valor}  />
+       </FormGroup>
+       
+<Button  disabled={ !this.state.motivo ||  !this.state.valor }>Salvar</Button>
+     </Form>
+     </ModalBody>
+     </Modal>
+     
       </Container>
            ) 
           

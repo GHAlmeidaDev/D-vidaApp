@@ -1,15 +1,24 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
-import { Media } from 'reactstrap'
-import Logo from './assets/salary.png'
+import Typerwriter from "typewriter-effect";
+
 
 const Header = () => {
   return (
     <header>
       <div className="intro-logo jumbo-bg">
-        <h1>Controle de dívidas</h1>
+        <h1>
+          <Typerwriter
+            onInit={(typewriter) => {
+              typewriter.typeString("Controle de Dívidas").pauseFor(2000).start();
+            }}
+          />
+        </h1>
        
-        <Media  src={Logo} style={{width:"8rem"}} alt="AppDivida" />
+
+       
+       
+      
         <img
           src="https://bootstrapmade.com/demo/themes/eStartup/img/hero-img.png"
           className=""
@@ -27,8 +36,11 @@ const Header = () => {
       <style jsx>{`
         header {
           margin-bottom: 1rem;
-          backgroundColor:' #fffdd0'
+          backgroundColor:' #fffdd0';
+          font-family: 'Roboto Mono';
+          font-size: '1.8rem'
         }
+        
         .intro-logo {
           display: flex;
           position: absolute;

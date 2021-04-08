@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
+import { Button, Form, FormGroup, Label, Input, Container } from 'reactstrap';
 
 import axios from "axios";
 
@@ -11,8 +11,9 @@ class AddDivida extends React.Component {
       motivo: '',
       valor: '',
       users: [],
+      editMode:false
     }
-  
+    this.update = this.update.bind(this)
   }
   
   
@@ -20,7 +21,23 @@ class AddDivida extends React.Component {
     this.setState({[e.target.name]: e.target.value})
   }
 
-
+  
+  update ( e) {
+    console.log('event', e)
+    e.preventDefault();
+    let _id = this.state.editMode;
+    const APP_UUID  = process.env.REACT_APP_UUID;
+    const url =`https://provadev.xlab.digital/api/v1/divida/${_id}?uuid=${APP_UUID}`
+    window.axios.put(url, {motivo: this.state.motivo, valor: this.state.valor})
+      .then(response => {
+        console.log(response);
+  
+        this.setState({
+          motivo: '',
+          valor: ''
+        })
+      })
+  }
 //FUNÇÃO METHOD POST
   handleSubmit = event =>{
     event.preventDefault();
@@ -61,8 +78,9 @@ class AddDivida extends React.Component {
    
     
     return (
+      <Container>
       <Form  onSubmit={this.handleSubmit}>
-       <h1 style={{fontFamily:"Roboto Mono"}}>Cadastro de dívidas</h1>
+       <h1 style={{fontFamily:"Roboto Mono"}}>Cadastro</h1>
         <p style={{paddingTop: "0.5rem", fontFamily:"Roboto Mono"}}>Cliente</p>
 
         <select style={{fontFamily:"Roboto Mono"}} type="number" name="idUsuario" id="idUsuario" onChange={this.onChange} value={this.state.idUsuario} className="custom-select" >
@@ -88,6 +106,8 @@ class AddDivida extends React.Component {
         
 <Button  disabled={!this.state.idUsuario || !this.state.motivo ||  !this.state.valor} style={{fontFamily:"Roboto Mono"}}>Cadastrar</Button>
       </Form>
+
+      </Container>
     );
   }
 }
