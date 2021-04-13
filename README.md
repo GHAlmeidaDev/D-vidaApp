@@ -1,7 +1,7 @@
 <div  align="center">
   Aplicação de Controle de Dívidas
 
-- Deploy by versel https://dividaapp.vercel.app/
+- Deploy by vercel https://dividaapp.vercel.app/
 
 ![](./src/Components/assets/LandingPage.png)
 ![](./src/Components/assets/Dashboard.png)
